@@ -39,7 +39,7 @@ AllMutualFunds = pd.DataFrame()
 for file in os.listdir(data_dir):
     # break
     fileName = file.split(".")[0]
-    fileData = pd.read_excel(os.path.join(data_dir,file))
+    fileData = pd.read_excel(os.path.join(data_dir,file), engine='openpyxl')
     fileData = fileData[::-1].reset_index(drop=True)
     # fileData['NAV Date'] = fileData['NAV Date'].astype('datetime64[ns]')
     fileData['NAV Date'] = pd.to_datetime(fileData['NAV Date'],format="%d-%m-%Y")
