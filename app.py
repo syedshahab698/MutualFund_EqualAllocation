@@ -115,7 +115,7 @@ html.Div([
                 start_date=date(2015,1,1),
                 end_date=date(2021, 1, 1)
             ),
-            html.Div(className = "w-100 justify-content-center text-center",children = dcc.Graph(className = "p-5 d-inline-block w-90",id="portfolio-curve"))
+            html.Div(className = "w-100 justify-content-center text-center",children = dcc.Graph(className = "p-5 d-inline-block",id="portfolio-curve"))
             
             ])
         
