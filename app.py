@@ -208,8 +208,7 @@ def update_portfolio_curve(start_date,end_date):
     fig.update_layout(annotations=annotations,
                        paper_bgcolor="#DCDCDC",
         plot_bgcolor='#DCDCDC',
-                     width=1200,
-        height=500)
+                     )
     
     return fig
 
