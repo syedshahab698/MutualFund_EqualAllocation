@@ -161,7 +161,7 @@ def update_portfolio_curve(start_date,end_date):
                     line=dict(color='rgb(67,67,67)', width=4),
                     name='Portfolio Curve'))
     fig.update_layout(
-        title = f"100 invested would become {round(Portfolio_returns_period.iloc[-1],2)}, Returns : {Portfolio_returns_period_returns}",
+        title = f"100 invested would become {round(Portfolio_returns_period.iloc[-1],2)} with Equal Allocation, Returns : {Portfolio_returns_period_returns}",
         xaxis=dict(
             title = "Date",
         showline=True,
@@ -238,7 +238,7 @@ def render_content(tab):
                     line=dict(color='rgb(67,67,67)', width=4),
                     name=fundName+' Portfolio Curve'))
     fig.update_layout(
-        title = f"100 invested would become {round(fund_returns.iloc[-1],2)} with Equal Allocation, Returns : {fund_period_returns}",
+        title = f"100 invested would become {round(fund_returns.iloc[-1],2)}, Returns : {fund_period_returns}",
         xaxis=dict(
             title = "Date",
         showline=True,
