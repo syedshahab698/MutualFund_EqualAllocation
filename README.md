@@ -11,7 +11,8 @@ Equal Allocation Among Mutual Funds :
 
 All Individual Mutual Funds Performance :
 
-![image](https://user-images.githubusercontent.com/55235435/133092948-ff44bdc4-05e8-43d9-aeb1-130b683e5774.png)
+![image](https://user-images.githubusercontent.com/55235435/133093943-8d2a1796-b374-4f5e-87e1-ab463f0dbe59.png)
+
 
 
 This app gives a good Idea about mutual funds and how the performance would look if we equally allocate among those.
