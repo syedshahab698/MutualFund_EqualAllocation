@@ -5,7 +5,8 @@ Interactive app, which shows the individual mutual funds performance and also ho
 for the purpose of bulding the app few mutual funds were selected and analysis was done using those.
 
 Equal Allocation Among Mutual Funds : 
-![image](https://user-images.githubusercontent.com/55235435/133092757-b57f8b9d-ee89-44f5-b2f8-cb1b3db7d297.png)
+![image](https://user-images.githubusercontent.com/55235435/133093412-e9564780-7dff-4613-aba5-85cae4081adb.png)
+
 
 
 All Individual Mutual Funds Performance :
