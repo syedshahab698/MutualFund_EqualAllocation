@@ -76,7 +76,7 @@ html.Div(className = "text-center p-3 mb-2 bg-dark text-white",children = [
         html.H1(className = ".text-secondary display-2 ",children = [
             'Mutual Fund - Allocation'
             ]),
-        html.P(children = ["Analysis Done for ",html.Mark("Mr. Abdul Aziz Khan.")])
+        html.P(children = ["Analysis Done by ",html.Mark(html.A('Syed Shahab Uddin', href = 'https://github.com/syedshahab698/'))])
         
         ]),    
 html.Div([    
