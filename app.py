@@ -19,21 +19,37 @@ import plotly.graph_objects as go
 current_dir = os.path.dirname(os.path.abspath(__file__))
 data_dir = os.path.join(current_dir,'Data')
 
-funds_dict = {"EBAF":"Edelweiss Balanced Advantage Fund",
-              "ICICBAV":"ICICI Pru Balanced Advantage Fund",
-              "ICICSF":"ICICI Savings Fund",
-              "KLDF":"Kotak Low Duration Fund",
-              "TBAF":"Tata Balanced Adv Fund",
-              }
-fund_description = {"EBAF":"__Edelweiss Balanced Advantage Fund__ :  Fund has __73.16%__ investment in __indian stocks__ of which __49.45%__ is in __large cap stocks__, __11.06%__ is in __mid cap stocks__, __4.42%__ in __small cap stocks__.Fund has __18.4%__ investment in __Debt__ of which __5.82%__ in __Government securities__, __12.58%__ in funds invested in __very low risk securities__..",
-              "ICICBAV":"__ICICI Prudential Balanced Advantage Fund__ :   Fund has __65.88%__ investment in __indian stocks__ of which 50.57% is in large cap stocks, 6.44% is in mid cap stocks, 2.43% in small cap stocks.Fund has 25.88% investment in Debt of which 8.29% in Government securities, 16.13% in funds invested in very low risk securities..",
-              "ICICSF":"""__ICICI Savings Fund__. Low Duration Fund : Fund has __87.3% __investment in__ Debt__ of which 41.29% in Government securities, 46.1% in funds invested in very low risk securities..
-                          Suitable For : Investors who want to invest for __1-3 years__ and are looking for alternative to bank deposits.
-                          Crisil Rank Change : Fund Crisil rank was updated from 3 to 4 in the previous quarter.""",
-              "KLDF":"""__Kotak Low Duration Fund__ : __Low Duration Fund__ : Fund has __91.45%__ investment in __Debt__ of which 18.54% in Government securities, 72.14% in funds invested in very low risk securities..
-                         Suitable For : Investors who want to invest for 1-3 years and are looking for alternative to bank deposits.""",
-              "TBAF":"__Tata Balanced Adv Fund__ :  Fund has __66.5%__ investment in __indian stocks__ of which 49.96% is in large cap stocks, 9.09% is in mid cap stocks, 4.1% in small cap stocks.Fund has 22.19% investment in Debt of which 4.26% in Government securities, 17.93% in funds invested in very low risk securities..",
-              }
+# funds_dict = {"EBAF":"Edelweiss Balanced Advantage Fund",
+#               "ICICBAV":"ICICI Pru Balanced Advantage Fund",
+#               "ICICSF":"ICICI Savings Fund",
+#               "KLDF":"Kotak Low Duration Fund",
+#               "TBAF":"Tata Balanced Adv Fund",
+#               }
+funds_dict = {
+    "ZLB.TO":"BMO Low Volatility Canadian Equity ETF",
+    "VDY.TO":"Vanguard FTSE Canadian High Dividend Yield Index ETF",
+    "ZGQ.TO":"BMO MSCI All Country World High Quality Index ETF",
+    "VIC300" : "Vanguard Windsor US Value Fund"
+    }
+
+
+# fund_description = {"EBAF":"__Edelweiss Balanced Advantage Fund__ :  Fund has __73.16%__ investment in __indian stocks__ of which __49.45%__ is in __large cap stocks__, __11.06%__ is in __mid cap stocks__, __4.42%__ in __small cap stocks__.Fund has __18.4%__ investment in __Debt__ of which __5.82%__ in __Government securities__, __12.58%__ in funds invested in __very low risk securities__..",
+#               "ICICBAV":"__ICICI Prudential Balanced Advantage Fund__ :   Fund has __65.88%__ investment in __indian stocks__ of which 50.57% is in large cap stocks, 6.44% is in mid cap stocks, 2.43% in small cap stocks.Fund has 25.88% investment in Debt of which 8.29% in Government securities, 16.13% in funds invested in very low risk securities..",
+#               "ICICSF":"""__ICICI Savings Fund__. Low Duration Fund : Fund has __87.3% __investment in__ Debt__ of which 41.29% in Government securities, 46.1% in funds invested in very low risk securities..
+#                           Suitable For : Investors who want to invest for __1-3 years__ and are looking for alternative to bank deposits.
+#                           Crisil Rank Change : Fund Crisil rank was updated from 3 to 4 in the previous quarter.""",
+#               "KLDF":"""__Kotak Low Duration Fund__ : __Low Duration Fund__ : Fund has __91.45%__ investment in __Debt__ of which 18.54% in Government securities, 72.14% in funds invested in very low risk securities..
+#                          Suitable For : Investors who want to invest for 1-3 years and are looking for alternative to bank deposits.""",
+#               "TBAF":"__Tata Balanced Adv Fund__ :  Fund has __66.5%__ investment in __indian stocks__ of which 49.96% is in large cap stocks, 9.09% is in mid cap stocks, 4.1% in small cap stocks.Fund has 22.19% investment in Debt of which 4.26% in Government securities, 17.93% in funds invested in very low risk securities..",
+#               }
+
+fund_description = {
+    "ZLB.TO":"__BMO Low Volatility Canadian Equity ETF__ : Fund invests in Large Cap growth Stocks ",
+    "VDY.TO":"__Vanguard FTSE Canadian High Dividend Yield Index ETF__ :  Fund invests in Large Cap Value Stocks " ,
+    "ZGQ.TO":"""__BMO MSCI All Country World High Quality Index ETF__ : Fund invests in Large Cap Blend of both Value and Growth Stocks""",
+    "VIC300":"""__Vanguard Windsor US Value Fund__ : Vanguard Windsor U.S. Value Fund seeks to provide long-term capital appreciation and income by investing primarily in large- and mid-capitalization companies located in the United States whose stocks are considered to be undervalued.""",
+        }
+
 
 AllMutualFunds = pd.DataFrame()
 for file in os.listdir(data_dir):
@@ -42,7 +58,7 @@ for file in os.listdir(data_dir):
     fileData = pd.read_excel(os.path.join(data_dir,file), engine='openpyxl')
     fileData = fileData[::-1].reset_index(drop=True)
     # fileData['NAV Date'] = fileData['NAV Date'].astype('datetime64[ns]')
-    fileData['NAV Date'] = pd.to_datetime(fileData['NAV Date'],format="%d-%m-%Y")
+    fileData['NAV Date'] = pd.to_datetime(fileData['NAV Date'],format="%Y-%m-%d")
     fileData.set_index('NAV Date',inplace=True)
     fileData.columns = [fileName]
     AllMutualFunds = pd.concat([AllMutualFunds,fileData],axis=1)
@@ -123,14 +139,22 @@ html.Div([
         ]),
     html.Div(className ="justify-content-center text-center",children = [
         html.H4(className = "display-4 p-4", children ="Individual Fund Portfolio Curve"),
-        dcc.Tabs(id='indv-funds-tabs',className = "custom-tabs-container",parent_className='custom-tabs', value='EBAF', children=
+        dcc.Tabs(id='indv-funds-tabs',className = "custom-tabs-container",parent_className='custom-tabs', value='ZLB.TO', children=
             [dcc.Tab(className='custom-tab',selected_className='custom-tab--selected',label=j, value=i) for i,j in funds_dict.items()]
     ),
         html.Div(id="indv-curves",className="w-100")
         
         ])
   
-    ],className = "m-5")
+    ],className = "m-5"),
+    # add a footer with sources links
+    html.Footer(className = "text-center p-3 mb-2 bg-dark text-white",children = [
+        html.H3(className = "display-5 p-4", children = "Sources"),
+        html.P(children = ["Vanguard FTSE Canadian High Dividend Yield Index ETF : ",html.Mark(html.A('Yahoo Finance', href = 'https://ca.finance.yahoo.com/quote/VDY.TO?p=VDY.TO&.tsrc=fin-srch'))]),
+        html.P(children = ["BMO MSCI All Country World High Quality Index ETF : ",html.Mark(html.A('Yahoo Finance', href = 'https://ca.finance.yahoo.com/quote/ZGQ.TO?p=ZGQ.TO&.tsrc=fin-srch'))]),
+        html.P(children = ["BMO Low Volatility Canadian Equity ETF : ",html.Mark(html.A('Yahoo Finance', href = 'https://ca.finance.yahoo.com/quote/ZLB.TO/profile?p=ZLB.TO'))]),
+        html.P(children = ["Vanguard Windsor U.S. Value Fund : ",html.Mark(html.A('Github', href = 'https://www.vanguard.ca/en/advisor/products/products-group/mutual-funds/VIC300'))])
+        ])
     ])
                
                    
@@ -216,7 +240,7 @@ def update_portfolio_curve(start_date,end_date):
               Input('indv-funds-tabs', 'value'))
 def render_content(tab):
     fundName =funds_dict[tab] 
-    fund_returns = AllMutualFunds_Returns[fundName.replace(" ","_")].copy()
+    fund_returns = AllMutualFunds_Returns[fundName].copy()#.replace(" ","_")
     fund_returns = fund_returns.loc['2015':]
     fund_returns = fund_returns.loc[~(fund_returns==-1)]
     fund_returns = fund_returns+1
